@@ -1,19 +1,21 @@
+import { inject } from '@angular/core';
+import { tapResponse } from '@ngrx/operators';
 import {
-  patchState,
-  signalStore,
-  withComputed,
-  withMethods,
-  withState,
+    patchState,
+    signalStore,
+    withMethods,
+    withState
 } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
-import { PlaylistState } from "../services/types";
-import { computed, Inject, inject } from '@angular/core';
+import { pipe, switchMap, tap } from 'rxjs';
 import { PlaylistService } from '../services/playlist.service';
-import { catchError, EMPTY, merge, mergeMap, pipe, tap } from 'rxjs';
+import { PlaylistState } from "../services/types";
 
 const getInitialState = (): PlaylistState => ({
-    name: '',
-    content: [],
+    featuredPlaylists: {
+        name: '',
+        content: [],
+    },
     selectedPlaylist: 0,
     isLoading: false,
 });
@@ -21,13 +23,6 @@ const getInitialState = (): PlaylistState => ({
 
 export const PlaylistStore = signalStore({ providedIn: 'root' }, 
     withState<PlaylistState>(getInitialState()),
-    withComputed(({ content }) => {
-        const chossenPlaylist = computed(() => content()[0]);
-
-        return {
-            chossenPlaylist
-        }
-    }),
     withMethods((store, apiService = inject(PlaylistService)) => ({
         setIsLoading(isLoading: boolean) {
             patchState(store, { isLoading });
@@ -35,23 +30,27 @@ export const PlaylistStore = signalStore({ providedIn: 'root' },
         loadPlaylist: rxMethod<void>(
             pipe(
                 tap(() => patchState(store, { isLoading: true })),
-                mergeMap(() => apiService.getPlaylist().pipe(
-                    tap((playlist) => patchState(store, { ...playlist, isLoading: false })),
-                    catchError((error) => {
-                        console.error('Error loading playlist', error);
-                        return EMPTY;
-                    })
-                )),
+                switchMap(() => apiService.getPlaylist().pipe(
+                        tap((response) => console.log('Response:', response)),
+                        tapResponse(
+                            (response) => {
+                                patchState(store, {
+                                    featuredPlaylists: {
+                                        name: response.featuredPlaylists.name,
+                                        content: response.featuredPlaylists.content,
+                                    },
+                                    isLoading: false,
+                                });
+                            },
+                            (error) => {
+                                console.error('Error loading playlist', error);
+                                patchState(store, { isLoading: false });
+                            }
+                    )
+                    )
+                 ),
             )
         ),
-         logState(): void {
-      const state = {
-          content: store.content(),
-          selectedPlaylist: store.selectedPlaylist(),
-          isLoading: store.isLoading(),
-            chossenPlaylist: store.chossenPlaylist(),
-      };
-      console.log('Current State:', state);
-    },
+        
     }))
 );  

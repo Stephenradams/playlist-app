@@ -1,6 +1,8 @@
 export type PlaylistState = {
-  name: string;
-  content: Playlist[];
+  featuredPlaylists: {
+    name: string;
+    content: Playlist[];
+  },
   selectedPlaylist: number;
   isLoading: boolean;
 }

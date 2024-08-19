@@ -14,8 +14,7 @@ export class AppComponent implements OnInit {
 
   store = inject(PlaylistStore);
 
-  ngOnInit() {
+  async ngOnInit() {
     this.store.loadPlaylist();
-    this.store.logState();
   }
 }

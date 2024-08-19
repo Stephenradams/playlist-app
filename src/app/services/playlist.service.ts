@@ -15,6 +15,6 @@ export class PlaylistService {
   ) { }
 
   getPlaylist(): Observable<PlaylistState> {
-    return this.http.get<PlaylistState>(`${environment.baseUrl}featured-playlist.json`);
+    return this.http.get<PlaylistState>(environment.baseUrl);
   }
 }

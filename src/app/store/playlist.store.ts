@@ -43,6 +43,15 @@ export const PlaylistStore = signalStore({ providedIn: 'root' },
                     })
                 )),
             )
-        )
+        ),
+         logState(): void {
+      const state = {
+          content: store.content(),
+          selectedPlaylist: store.selectedPlaylist(),
+          isLoading: store.isLoading(),
+            chossenPlaylist: store.chossenPlaylist(),
+      };
+      console.log('Current State:', state);
+    },
     }))
 );  

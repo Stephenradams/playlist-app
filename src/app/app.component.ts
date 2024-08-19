@@ -16,5 +16,6 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.store.loadPlaylist();
+    this.store.logState();
   }
 }

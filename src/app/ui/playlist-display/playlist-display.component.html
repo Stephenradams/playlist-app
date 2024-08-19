@@ -1,1 +1,27 @@
-<h1>{{store.featuredPlaylists().name}}</h1>
+<table mat-table [dataSource]="store.featuredPlaylists().content">
+
+
+    <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+    </ng-container>
+
+
+    <ng-container matColumnDef="kind">
+        <th mat-header-cell *matHeaderCellDef> Kind </th>
+        <td mat-cell *matCellDef="let element" class="kind_cell"> {{element.kind}} </td>
+    </ng-container>
+
+
+    <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef> Action </th>
+        <td mat-cell *matCellDef="let element">
+            <button mat-raised-button (click)="onAction(element)">Action</button>
+        </td>
+    </ng-container>
+
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+</table>

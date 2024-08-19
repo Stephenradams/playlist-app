@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from "@angular/core";
+import { Component, EventEmitter, inject, OnInit, Output } from "@angular/core";
 import { PlaylistStore } from "../../store/playlist.store";
 import { Playlist } from "../../services/types";
 import { MatTableModule } from "@angular/material/table";
@@ -8,6 +8,7 @@ import { JsonPipe } from "@angular/common";
 export interface ElementData {
   name: string;
   type: string;
+  curator_name: string;
 }
 @Component({
   selector: "app-playlist-display",
@@ -18,9 +19,11 @@ export interface ElementData {
 })
 export class PlaylistDisplayComponent {
   readonly store = inject(PlaylistStore);
-  displayedColumns: string[] = ["name", "kind", "action"];
+  @Output() action: EventEmitter<Playlist> = new EventEmitter<Playlist>();
 
-  onAction(element: ElementData): void {
-    console.log("Action:", element);
+  displayedColumns: string[] = ["name", "kind", "curator", "action"];
+
+  onAction(element: Playlist): void {
+    this.action.emit(element);
   }
 }

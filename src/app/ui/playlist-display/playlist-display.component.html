@@ -12,11 +12,16 @@
         <td mat-cell *matCellDef="let element" class="kind_cell"> {{element.kind}} </td>
     </ng-container>
 
+    <ng-container matColumnDef="curator">
+        <th mat-header-cell *matHeaderCellDef> Curator </th>
+        <td mat-cell *matCellDef="let element"> {{element.curator_name}} </td>
+    </ng-container>
+
 
     <ng-container matColumnDef="action">
         <th mat-header-cell *matHeaderCellDef> Action </th>
         <td mat-cell *matCellDef="let element">
-            <button mat-raised-button (click)="onAction(element)">Action</button>
+            <button mat-raised-button (click)="onAction(element)">View Details</button>
         </td>
     </ng-container>
 

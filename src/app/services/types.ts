@@ -2,6 +2,7 @@ export type PlaylistState = {
   name: string;
   content: Playlist[];
   selectedPlaylist: number;
+  isLoading: boolean;
 }
 
 export type Playlist = {

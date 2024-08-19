@@ -5,6 +5,8 @@ import { routes } from "./app.routes";
 import { provideAnimationsAsync } from "@angular/platform-browser/animations/async";
 import { provideStore } from "@ngrx/store";
 import { reducers, metaReducers } from "./reducers";
+import { provideEffects } from '@ngrx/effects';
+
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -12,5 +14,6 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideAnimationsAsync(),
     provideStore(reducers, { metaReducers }),
-  ],
+    provideEffects()
+],
 };

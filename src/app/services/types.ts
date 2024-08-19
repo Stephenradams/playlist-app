@@ -1,4 +1,4 @@
-export interface PlaylistState {
+export type PlaylistState = {
   name: string;
   content: Playlist[];
   selectedPlaylist: number;

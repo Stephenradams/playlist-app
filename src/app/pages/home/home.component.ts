@@ -18,6 +18,7 @@ export class HomeComponent {
 
   selectedPlaylistHandler(playlist: Playlist): void {
     console.log("Selected playlist:", playlist.id);
+    this.store.setSelectedPlaylist(playlist);
     this.router.navigate(["/details", playlist.id]);
   }
 }

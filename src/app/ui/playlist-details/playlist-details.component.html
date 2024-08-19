@@ -1,1 +1,15 @@
-<p>playlist-details works!</p>
+<div class="playlist-details_container">
+    <div class="playlist-details">
+        <div class="playlist-details_image">
+            <img [src]="artwork" alt="playlist image" />
+
+            <p>{{name}}</p>
+            <p>{{kind}}</p>
+            <p>{{curator_name}}</p>
+        </div>
+
+
+
+    </div>
+
+    <a mat-flat-button [href]="url">Open in Music</a>

@@ -1,26 +1,40 @@
 import { inject } from "@angular/core";
 import { tapResponse } from "@ngrx/operators";
-import { patchState, signalStore, withMethods, withState } from "@ngrx/signals";
+import {
+  patchState,
+  signalStore,
+  withComputed,
+  withMethods,
+  withState,
+} from "@ngrx/signals";
 import { rxMethod } from "@ngrx/signals/rxjs-interop";
 import { pipe, switchMap, tap } from "rxjs";
 import { PlaylistService } from "../services/playlist.service";
-import { PlaylistState } from "../services/types";
+import { Playlist, PlaylistState } from "../services/types";
 
 const getInitialState = (): PlaylistState => ({
   featuredPlaylists: {
     name: "",
     content: [],
   },
-  selectedPlaylist: 0,
+  selectedPlaylist: null,
   isLoading: false,
 });
 
 export const PlaylistStore = signalStore(
   { providedIn: "root" },
   withState<PlaylistState>(getInitialState()),
+  withComputed((state) => ({
+    featuredPlaylists: state.featuredPlaylists,
+    selectedPlaylist: state.selectedPlaylist,
+    isLoading: state.isLoading,
+  })),
   withMethods((store, apiService = inject(PlaylistService)) => ({
     setIsLoading(isLoading: boolean) {
       patchState(store, { isLoading });
+    },
+    setSelectedPlaylist(playlist: Playlist) {
+      patchState(store, { selectedPlaylist: playlist });
     },
     loadPlaylist: rxMethod<void>(
       pipe(

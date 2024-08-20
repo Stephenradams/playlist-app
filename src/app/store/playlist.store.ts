@@ -1,19 +1,20 @@
 import { inject } from "@angular/core";
 import { tapResponse } from "@ngrx/operators";
 import {
-    patchState,
-    signalStore,
-    withComputed,
-    withMethods,
-    withState,
+  patchState,
+  signalStore,
+  withComputed,
+  withMethods,
+  withState,
 } from "@ngrx/signals";
 import { rxMethod } from "@ngrx/signals/rxjs-interop";
 import {
-    distinctUntilChanged,
-    mergeMap,
-    pipe,
-    switchMap,
-    tap
+  distinctUntilChanged,
+  filter,
+  mergeMap,
+  pipe,
+  switchMap,
+  tap,
 } from "rxjs";
 import { PlaylistService } from "../services/playlist.service";
 import { Playlist, PlaylistState } from "../services/types";
@@ -21,6 +22,9 @@ import { Playlist, PlaylistState } from "../services/types";
 const getInitialState = (): PlaylistState => ({
   featuredPlaylists: {
     name: "",
+    content: [],
+  },
+  filterableplaylists: {
     content: [],
   },
   selectedPlaylist: null,
@@ -57,6 +61,9 @@ export const PlaylistStore = signalStore(
                     name: response.featuredPlaylists.name,
                     content: response.featuredPlaylists.content,
                   },
+                  filterableplaylists: {
+                    content: response.featuredPlaylists.content,
+                  },
                   isLoading: false,
                 });
               },
@@ -72,8 +79,8 @@ export const PlaylistStore = signalStore(
     searchForPlaylist: rxMethod<{ searchTerm: string }>(
       pipe(
         distinctUntilChanged(),
-        mergeMap(({ searchTerm }) =>
-          store.featuredPlaylists().content.filter((playlist) => {
+        switchMap(({ searchTerm }) =>
+          store.filterableplaylists().content.filter((playlist) => {
             return (
               playlist.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
               playlist.curator_name
@@ -84,9 +91,22 @@ export const PlaylistStore = signalStore(
         ),
         tap((playlist) => {
           patchState(store, {
-            featuredPlaylists: {
-              name: "Search Results",
+            filterableplaylists: {
               content: [playlist],
+            },
+          });
+        })
+      )
+    ),
+    resetPlaylist: rxMethod<void>(
+      pipe(
+        tap(() => {
+          console.log("Resetting playlist");
+        }),
+        tap(() => {
+          patchState(store, {
+            filterableplaylists: {
+              content: store.featuredPlaylists().content,
             },
           });
         })

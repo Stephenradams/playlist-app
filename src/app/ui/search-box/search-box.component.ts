@@ -15,13 +15,11 @@ export class SearchBoxComponent {
   @Output() clearEvent = new EventEmitter<void>();
 
   search(value: string) {
-    if (!value) {
-      return;
-    }
     if (value.length > 3) {
       this.searchEvent.emit(value);
-    } else {
-      console.log("Search term must be at least 4 characters");
+    }
+    if (value.length === 0) {
+      console.log("Clearing search term");
       this.clearEvent.emit();
     }
   }

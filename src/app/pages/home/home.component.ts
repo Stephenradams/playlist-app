@@ -1,9 +1,9 @@
 import { Component, inject } from "@angular/core";
+import { Router, RouterModule } from "@angular/router";
+import { Playlist } from "../../services/types";
+import { PlaylistStore } from "../../store/playlist.store";
 import { PlaylistDisplayComponent } from "../../ui/playlist-display/playlist-display.component";
 import { SearchBoxComponent } from "../../ui/search-box/search-box.component";
-import { PlaylistStore } from "../../store/playlist.store";
-import { Playlist } from "../../services/types";
-import { Router, RouterModule } from "@angular/router";
 
 @Component({
   selector: "app-home",
@@ -14,7 +14,10 @@ import { Router, RouterModule } from "@angular/router";
 })
 export class HomeComponent {
   readonly store = inject(PlaylistStore);
+
   constructor(private router: Router) {}
+
+  filterableplaylists = this.store.featuredPlaylists();
 
   selectedPlaylistHandler(playlist: Playlist): void {
     console.log("Selected playlist:", playlist.id);
@@ -28,5 +31,7 @@ export class HomeComponent {
 
   clearHandler(): void {
     console.log("Clearing search term");
+    // this.store.loadPlaylist();
+    this.store.resetPlaylist();
   }
 }

@@ -2,26 +2,21 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.0.
 
-## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+### Comments/thoughts
 
-## Code scaffolding
+This test gives a lot of space to come up with ideas for how to structure an Angular app and what features you can add. It would have been easy to make a API request and display the list of playlists on a page, this could be done with one component, but really the test is to show what you can do with a source of data. 
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+What I've aimed to do in this example code is create an app that loads the Playlist data and have some features that a 'user' may want, including searching, viewing the full details of a playlist and being able to open the playlist in Apple Music. 
 
-## Build
+So I found that this test gave scope to think about what can be done with this data.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+### Technical Comments
 
-## Running unit tests
+I've built this app to using NgRx's Signal Store approach instead of the usual actions, reducers, effects structure (which I have used on several projects). I chose to use the Signal Store approach as it shows how NgRx based applications can now start to use the new features of Angular (Signals), which might be the direction NgRx goes in the future. 
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+### Challenges/Successes
 
-## Running end-to-end tests
+The challenges I found was working with the Signal Store, especially the methods of the store and how, currently, the NgRx dev tools do not support the Signal Store approach, so seeing what is currently in the store at any time is not as straight forward as the NgRx non-signal store approach. But a new method added to the Store that logs out all the current values is one way of getting around this issue.
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+The successes, I thought the structure I set out was intuitive and it was good to make use of Angular Material again, which I haven't used recently. 

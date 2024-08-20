@@ -21,4 +21,12 @@ export class HomeComponent {
     this.store.setSelectedPlaylist(playlist);
     this.router.navigate(["/details", playlist.id]);
   }
+
+  searchHandler(searchTerm: string): void {
+    this.store.searchForPlaylist({ searchTerm });
+  }
+
+  clearHandler(): void {
+    console.log("Clearing search term");
+  }
 }

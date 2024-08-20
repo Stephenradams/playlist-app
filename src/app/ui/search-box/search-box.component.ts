@@ -19,8 +19,7 @@ export class SearchBoxComponent {
       return;
     }
     if (value.length > 3) {
-      console.log("Searching...", value);
-      this.searchEvent.emit("searching");
+      this.searchEvent.emit(value);
     } else {
       console.log("Search term must be at least 4 characters");
       this.clearEvent.emit();

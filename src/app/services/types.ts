@@ -2,10 +2,10 @@ export type PlaylistState = {
   featuredPlaylists: {
     name: string;
     content: Playlist[];
-  },
+  };
   selectedPlaylist: Playlist | null;
   isLoading: boolean;
-}
+};
 
 export type Playlist = {
   id: string;

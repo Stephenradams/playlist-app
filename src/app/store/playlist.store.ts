@@ -1,14 +1,20 @@
 import { inject } from "@angular/core";
 import { tapResponse } from "@ngrx/operators";
 import {
-  patchState,
-  signalStore,
-  withComputed,
-  withMethods,
-  withState,
+    patchState,
+    signalStore,
+    withComputed,
+    withMethods,
+    withState,
 } from "@ngrx/signals";
 import { rxMethod } from "@ngrx/signals/rxjs-interop";
-import { pipe, switchMap, tap } from "rxjs";
+import {
+    distinctUntilChanged,
+    mergeMap,
+    pipe,
+    switchMap,
+    tap
+} from "rxjs";
 import { PlaylistService } from "../services/playlist.service";
 import { Playlist, PlaylistState } from "../services/types";
 
@@ -24,11 +30,13 @@ const getInitialState = (): PlaylistState => ({
 export const PlaylistStore = signalStore(
   { providedIn: "root" },
   withState<PlaylistState>(getInitialState()),
-  withComputed((state) => ({
-    featuredPlaylists: state.featuredPlaylists,
-    selectedPlaylist: state.selectedPlaylist,
-    isLoading: state.isLoading,
-  })),
+  withComputed(({ featuredPlaylists, isLoading, selectedPlaylist }) => {
+    return {
+      featuredPlaylists: featuredPlaylists,
+      selectedPlaylist: selectedPlaylist,
+      isLoading: isLoading,
+    };
+  }),
   withMethods((store, apiService = inject(PlaylistService)) => ({
     setIsLoading(isLoading: boolean) {
       patchState(store, { isLoading });
@@ -59,6 +67,29 @@ export const PlaylistStore = signalStore(
             )
           )
         )
+      )
+    ),
+    searchForPlaylist: rxMethod<{ searchTerm: string }>(
+      pipe(
+        distinctUntilChanged(),
+        mergeMap(({ searchTerm }) =>
+          store.featuredPlaylists().content.filter((playlist) => {
+            return (
+              playlist.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+              playlist.curator_name
+                .toLocaleLowerCase()
+                .includes(searchTerm.toLowerCase())
+            );
+          })
+        ),
+        tap((playlist) => {
+          patchState(store, {
+            featuredPlaylists: {
+              name: "Search Results",
+              content: [playlist],
+            },
+          });
+        })
       )
     ),
   }))

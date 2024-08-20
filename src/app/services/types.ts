@@ -1,4 +1,4 @@
-export type PlaylistState = {
+export interface PlaylistState {
   featuredPlaylists: {
     name?: string;
     content: Playlist[];
@@ -8,18 +8,18 @@ export type PlaylistState = {
   };
   selectedPlaylist: Playlist | null;
   isLoading: boolean;
-};
+}
 
-export type Playlist = {
+export interface Playlist {
   id: string;
   name: string;
   kind: string;
   url: string;
   curator_name: string;
   artwork: string;
-};
+}
 
-export type FilterablePlaylist = {
+export interface FilterablePlaylist {
   name: string;
   content: Playlist[];
-};
+}

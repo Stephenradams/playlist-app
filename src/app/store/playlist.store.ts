@@ -1,20 +1,18 @@
 import { inject } from "@angular/core";
 import { tapResponse } from "@ngrx/operators";
 import {
-  patchState,
-  signalStore,
-  withComputed,
-  withMethods,
-  withState,
+    patchState,
+    signalStore,
+    withComputed,
+    withMethods,
+    withState,
 } from "@ngrx/signals";
 import { rxMethod } from "@ngrx/signals/rxjs-interop";
 import {
-  distinctUntilChanged,
-  filter,
-  mergeMap,
-  pipe,
-  switchMap,
-  tap,
+    distinctUntilChanged,
+    pipe,
+    switchMap,
+    tap
 } from "rxjs";
 import { PlaylistService } from "../services/playlist.service";
 import { Playlist, PlaylistState } from "../services/types";

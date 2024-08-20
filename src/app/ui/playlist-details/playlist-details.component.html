@@ -1,15 +1,19 @@
 <div class="playlist-details_container">
-    <div class="playlist-details">
-        <div class="playlist-details_image">
-            <img [src]="artwork" alt="playlist image" />
+    <mat-card appearance="outlined">
+        <mat-card-header>
+            <mat-card-title>{{name}}</mat-card-title>
 
-            <p>{{name}}</p>
+        </mat-card-header>
+        <mat-card-content>
             <p>{{kind}}</p>
             <p>{{curator_name}}</p>
-        </div>
+            @if (artwork) {
+            <img [src]="artwork" alt="playlist image" />
+            }
 
-
-
-    </div>
-
-    <a mat-flat-button [href]="url">Open in Music</a>
+        </mat-card-content>
+        <mat-card-actions>
+            <a mat-flat-button [href]="url">Open in Music</a>
+        </mat-card-actions>
+    </mat-card>
+</div>

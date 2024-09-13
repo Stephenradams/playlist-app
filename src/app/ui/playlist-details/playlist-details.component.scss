@@ -10,6 +10,13 @@
     margin-top: 1rem;
     margin-bottom: 1rem;
 
+    mat-card {
+        width: 80vw;
+        margin: 0;
+        padding: 0;
+        text-align: center;
+    }
+
     mat-card-title {
         font-size: 2rem;
         font-weight: 700;

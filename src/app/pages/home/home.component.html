@@ -1,7 +1,7 @@
 <div class="container">
   <h2>Selected Playlist Title: {{store.featuredPlaylists().name}}</h2>
   <div class="search-box_container">
-    <app-search-box (searchEvent)="searchHandler($event)" (clearEvent)="clearHandler()"></app-search-box>
+    <app-search-box class="search-box" (searchEvent)="searchHandler($event)" (clearEvent)="clearHandler()"></app-search-box>
   </div>
 
   <div class="playlist-display_container">

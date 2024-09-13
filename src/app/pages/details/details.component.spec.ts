@@ -5,6 +5,7 @@ import { provideHttpClient } from "@angular/common/http";
 import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { provideAnimationsAsync } from "@angular/platform-browser/animations/async";
 import { PlaylistStore } from "../../store/playlist.store";
+import { ActivatedRoute, RouterLink } from "@angular/router";
 
 describe("DetailsComponent", () => {
   let component: DetailsComponent;
@@ -18,6 +19,12 @@ describe("DetailsComponent", () => {
         provideHttpClient(),
         provideHttpClientTesting(),
         provideAnimationsAsync("animations"),
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            snapshot: { params: { id: "pl.1234" } },
+          },
+        },
       ],
     }).compileComponents();
 

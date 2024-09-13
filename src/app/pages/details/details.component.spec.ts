@@ -1,11 +1,11 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { DetailsComponent } from "./details.component";
 import { provideHttpClient } from "@angular/common/http";
 import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { provideAnimationsAsync } from "@angular/platform-browser/animations/async";
+import { ActivatedRoute } from "@angular/router";
 import { PlaylistStore } from "../../store/playlist.store";
-import { ActivatedRoute, RouterLink } from "@angular/router";
+import { DetailsComponent } from "./details.component";
 
 describe("DetailsComponent", () => {
   let component: DetailsComponent;

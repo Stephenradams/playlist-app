@@ -4,6 +4,7 @@ import { HeaderComponent } from "./ui/header/header.component";
 import { PlaylistStore } from "./store/playlist.store";
 import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { provideHttpClient } from "@angular/common/http";
+import { ActivatedRoute } from "@angular/router";
 
 describe("AppComponent", () => {
   beforeEach(async () => {
@@ -13,6 +14,12 @@ describe("AppComponent", () => {
         PlaylistStore,
         provideHttpClient(),
         provideHttpClientTesting(),
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            snapshot: { params: { id: "" } },
+          },
+        },
       ],
     }).compileComponents();
   });
